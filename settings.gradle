@@ -1,0 +1,2 @@
+include ':app', ':annotations', ':compiler', ':router'
+rootProject.name='RouterBlocks Sample'
