@@ -8,7 +8,5 @@ class MyApp: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Router(baseContext).registerRoutes()
-
     }
 }
