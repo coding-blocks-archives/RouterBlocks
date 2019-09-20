@@ -17,6 +17,10 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.util.Elements
 import javax.tools.Diagnostic
 
+/**
+ * A [Processor] that processes [Route] annotations
+ */
+
 @AutoService(Processor::class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 class RouteProcessor : AbstractProcessor() {
@@ -47,8 +51,11 @@ class RouteProcessor : AbstractProcessor() {
         if (routeElements.size < 1) {
             return false
         }
+        /**
+         * List of all elements that have the [Route] annotation
+         * Basically will be a list of Activities.
+         */
         val elementList = arrayListOf<Element>().apply { addAll(routeElements) }
-
 
         try {
             genRouterFile(elementList, filer)

@@ -14,20 +14,11 @@ import javax.lang.model.element.Element
 
 object RouterGenerator {
 
-    private fun routerFileBuilder() =
-        FileSpec.builder("com.codingblocks.routerblocks", "Router")
-
-    private fun routeHashMapProperty() = PropertySpec.builder(
-        "routes",
-        HashMap::class.asClassName().parameterizedBy(
-            String::class.asClassName(),
-            Class::class.asClassName().parameterizedBy(
-                WildcardTypeName.producerOf(
-                    ClassName("android.app", "Activity")
-                )
-            )
-        )
-    ).initializer("hashMapOf<String, Class<out Activity>>()").build()
+    /**
+     * Build a `Router.kt` file within the package name provided
+     */
+    private fun routerFileBuilder(packageName: String = "com.codingblocks.routerblocks") =
+        FileSpec.builder(packageName, "Router")
 
     private fun addRouteStatement(element: Element, codeblockBuilder: CodeBlock.Builder) =
         codeblockBuilder.addStatement(
@@ -41,10 +32,10 @@ object RouterGenerator {
         }.build()
 
     fun genRouterFile(elements: ArrayList<Element>, filer: Filer) {
-        routerFileBuilder()
+        routerFileBuilder(elements[0].takeIf { it.kind.isClass }?.enclosingElement.toString())
             .addType(
                 TypeSpec.objectBuilder("Router")
-                    .addProperty(routeHashMapProperty())
+                    .superclass(ClassName("com.codingblocks.routerblocks.router", "BaseRouter"))
                     .addInitializerBlock(routerInitBlock(elements))
                     .build()
             )
