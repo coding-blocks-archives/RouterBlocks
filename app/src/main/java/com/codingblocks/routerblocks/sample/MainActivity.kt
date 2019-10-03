@@ -3,6 +3,7 @@ package com.codingblocks.routerblocks.sample
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import com.codingblocks.routerblocks.annotations.Route
 
 @Route("a")
